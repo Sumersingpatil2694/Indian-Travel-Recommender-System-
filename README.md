@@ -86,6 +86,16 @@ pickle          - Model serialization
 - **Plotly Express** - Interactive charts
 - **Gradient Design** - Modern UI theme
 
+- > ⚠️ **Deployment Note (Important):**  
+> Pre-trained pickle (`.pkl`) models were intentionally **disabled** due to large file size constraints  
+> on GitHub and Streamlit Cloud.  
+>  
+> Instead, the recommendation engine is built **dynamically at runtime** using **TF-IDF vectorization**  
+> and **Cosine Similarity**, ensuring:
+> - Smooth Streamlit Cloud deployment  
+> - No large model files in the repository  
+> - Scalable and production-friendly architecture  
+
 ## 📥 Installation
 
 ### Prerequisites
@@ -116,6 +126,10 @@ Place these 4 CSV files in the project root directory:
 ```bash
 python train_model.py
 ```
+> Note: Model training is optional.  
+> The deployed Streamlit app uses an **on-the-fly recommendation engine** and does not require  
+> pre-trained `.pkl` files.
+
 This creates 3 pickle files:
 - `tfidf_vectorizer.pkl`
 - `cosine_similarity.pkl`
