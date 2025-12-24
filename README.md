@@ -3,6 +3,8 @@
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)
 ![Status](https://img.shields.io/badge/Status-Active-success.svg)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-brightgreen)](https://lku3ycfvtzsngc5c2fbexg.streamlit.app/)
+
 
 ## 📌 Table of Contents
 - [Overview](#-overview)
