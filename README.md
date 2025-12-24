@@ -7,14 +7,12 @@
 ## 📌 Table of Contents
 - [Overview](#-overview)
 - [Features](#-features)
-- [Tech Stack](#-tech-stack)
 - [Installation](#-installation)
 - [Dataset](#-dataset)
 - [Usage](#-usage)
-- [Screenshots](#-screenshots)
 - [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
-- [License](#-license)
+
 
 ## 🎯 Overview
 
@@ -604,12 +602,8 @@ incredible-india-explorer/
 ├── indices.pkl                       # Destination indices
 │
 ├── README.md                         # Project documentation
-├── README_HINDI.md                   # Hindi documentation
-├── CODE_EXPLANATION.md               # Detailed code explanation
-├── CODE_EXPLANATION_HINDI.md         # Hindi code explanation
-├── INTERVIEW_QUESTIONS.md            # Interview Q&A
-├── QUICK_START.md                    # Quick start guide
-└── LICENSE                           # MIT License
+└── QUICK_START.md                     # Quick start guide
+                          
 ```
 
 ---
