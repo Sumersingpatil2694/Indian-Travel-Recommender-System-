@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)
-![Status](https://img.shields.io/badge/Status-Active-success.svg)
+![Status](https://lku3ycfvtzsngc5c2fbexg.streamlit.app/)
 
 ## 📌 Table of Contents
 - [Overview](#-overview)
@@ -12,6 +12,7 @@
 - [Usage](#-usage)
 - [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
+- [Tech Stack](#-Tech-Stack)
 
 
 ## 🎯 Overview
