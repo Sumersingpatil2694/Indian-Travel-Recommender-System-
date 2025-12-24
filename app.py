@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import warnings
 import plotly.express as px
 import plotly.graph_objects as go
+#import pickle
 
 warnings.filterwarnings("ignore")
 
@@ -272,19 +273,70 @@ def load_data():
         return None, None, None, None
 
 # =========================================================
-# LOAD MODELS
+# LOAD MODELS (DISABLED)
+# Reason:
+# Large .pkl model files (250MB–750MB) are not suitable for
+# GitHub & Streamlit Cloud deployment.
+# Replaced with on-the-fly TF-IDF model building.
 # =========================================================
-@st.cache_resource
-def load_models():
-    try:
-        tfidf = pickle.load(open("tfidf_vectorizer.pkl", "rb"))
-        cosine_sim = pickle.load(open("cosine_similarity.pkl", "rb"))
-        indices = pickle.load(open("indices.pkl", "rb"))
-        return tfidf, cosine_sim, indices
-    except:
-        st.warning("⚠️ Recommendation models not found. Some features may be limited.")
-        return None, None, None
+#@st.cache_resource
+#def load_models():
+    #try:
+       # tfidf = pickle.load(open("tfidf_vectorizer.pkl", "rb"))
+        #cosine_sim = pickle.load(open("cosine_similarity.pkl", "rb"))
+        #indices = pickle.load(open("indices.pkl", "rb"))
+        #return tfidf, cosine_sim, indices
+    #except:
+        #st.warning("⚠️ Recommendation models not found. Some features may be limited.")
+        #return None, None, None
 
+# =========================================================
+# ON-THE-FLY RECOMMENDATION MODEL (NEW)
+# =========================================================
+
+def prepare_features(destinations):
+    """
+    Create combined text features for recommendation
+    """
+    for col in ["Name", "Type", "Tags", "City", "State/UT", "Description", "Activities"]:
+        if col in destinations.columns:
+            destinations[col] = destinations[col].fillna("")
+
+    destinations["features"] = (
+        destinations["Name"] + " " +
+        destinations["Type"] + " " +
+        destinations["Tags"] + " " +
+        destinations["City"] + " " +
+        destinations["State/UT"] + " " +
+        destinations["Description"] + " " +
+        destinations["Activities"]
+    )
+    return destinations
+
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+@st.cache_resource
+def build_recommendation_model(destinations):
+    """
+    Build TF-IDF + cosine similarity model on-the-fly
+    """
+    tfidf = TfidfVectorizer(
+        stop_words="english",
+        max_features=3000
+    )
+
+    tfidf_matrix = tfidf.fit_transform(destinations["features"])
+    cosine_sim = cosine_similarity(tfidf_matrix)
+
+    indices = pd.Series(
+        destinations.index,
+        index=destinations["Name"]
+    ).to_dict()
+
+    return cosine_sim, indices
+       
 # =========================================================
 # UTILITY FUNCTIONS
 # =========================================================
@@ -541,7 +593,11 @@ def main():
         st.error("❌ Failed to load data. Please check if CSV files are present.")
         return
     
-    tfidf, cosine_sim, indices = load_models()
+    # OLD MODEL LOADING (DISABLED)
+    #tfidf, cosine_sim, indices = load_models()
+      # NEW ON-THE-FLY MODEL (ACTIVE)
+    destinations = prepare_features(destinations)
+    cosine_sim, indices = build_recommendation_model(destinations)
     
     # HEADER
     st.markdown("""
