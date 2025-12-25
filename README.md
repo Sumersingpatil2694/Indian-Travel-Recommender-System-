@@ -9,7 +9,7 @@
 ## 📌 Table of Contents
 - [Overview](#-overview)
 - [Features](#-features)
-- [Tech Stack](#-tech-stack)
+- [Tech Stack](https://github.com/Sumersingpatil2694/Indian-Travel-Recommender-System-/blob/main/README.md#%EF%B8%8F-tech-stack)
 - [Installation](#-installation)
 - [Dataset](#-dataset)
 - [Usage](#-usage)
