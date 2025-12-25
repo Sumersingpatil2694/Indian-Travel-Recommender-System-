@@ -9,12 +9,12 @@
 ## 📌 Table of Contents
 - [Overview](#-overview)
 - [Features](#-features)
+- [Tech Stack](#-tech-stack)
 - [Installation](#-installation)
 - [Dataset](#-dataset)
 - [Usage](#-usage)
 - [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
-- [Tech Stack](#-Tech-Stack)
 
 
 ## 🎯 Overview
