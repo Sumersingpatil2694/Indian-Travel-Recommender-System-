@@ -345,13 +345,22 @@ def parse_average_cost(cost_value):
     if pd.isna(cost_value):
         return 0
     if isinstance(cost_value, (int, float)):
-        return int(cost_value)
+        val = int(cost_value)
+        return val if val < 1_000_000 else 50000
     cost_str = str(cost_value).replace("₹", "").replace(",", "").strip()
-    # Handle range like "50000-121268"
+    # Handle range like "5000-12000" → take average
     if "-" in cost_str:
-        cost_str = cost_str.split("-")[0].strip()
+        parts = cost_str.split("-")
+        try:
+            low  = int(float(parts[0].strip()))
+            high = int(float(parts[1].strip()))
+            val  = (low + high) // 2
+            return val if val < 1_000_000 else 50000
+        except:
+            pass
     try:
-        return int(float(cost_str))
+        val = int(float(cost_str))
+        return val if val < 1_000_000 else 50000
     except:
         return 0
 
@@ -401,44 +410,13 @@ def destination_card(row, show_recommend_btn=False, cosine_sim=None, indices=Non
     
     st.markdown('<div class="img-container">', unsafe_allow_html=True)
 
-    # Check if the URL is a real image URL (not a Google Search URL or empty)
-    def get_display_image(img_url, row):
-        """Return a valid displayable image URL for the destination."""
-        is_real_url = (
-            isinstance(img_url, str)
-            and img_url.strip() != ""
-            and "google.com/search" not in img_url
-            and img_url.strip().lower() not in ("nan", "none", "")
+    if isinstance(img_url, str) and img_url.strip() != "":
+        st.image(img_url.strip(), use_container_width=True)
+    else:
+        st.image(
+            "https://via.placeholder.com/800x400?text=No+Image",
+            use_container_width=True
         )
-        if is_real_url:
-            return img_url.strip()
-        
-        # Build an Unsplash search query from destination name + type
-        dest_name = str(row.get("Name", "")).strip()
-        dest_type = str(row.get("Type", "")).strip()
-        dest_city = str(row.get("City", "")).strip()
-        
-        # Map destination type to relevant Unsplash keywords
-        type_keywords = {
-            "Historical":  "historic monument india",
-            "Beach":       "beach india coast",
-            "Wildlife":    "wildlife national park india",
-            "Religious":   "temple india spiritual",
-            "Adventure":   "adventure mountains india",
-            "Nature":      "nature landscape india",
-            "Hill Station":"hills india misty",
-            "Cultural":    "cultural festival india",
-            "Desert":      "desert rajasthan india",
-            "Waterfall":   "waterfall india",
-        }
-        keyword = type_keywords.get(dest_type, "india travel tourism")
-        
-        # Unsplash Source API — free, no key needed, returns a real photo
-        query = f"{dest_name} {dest_city} {keyword}".replace(" ", "%20")
-        return f"https://source.unsplash.com/800x400/?{query}"
-
-    display_img = get_display_image(img_url, row)
-    st.image(display_img, use_container_width=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
